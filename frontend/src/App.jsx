@@ -1,46 +1,61 @@
 import {useEffect, useRef, useState} from 'react'
 import './App.css'
-import getFPS from "./utils/getFPS.js";
 import {startAnimating, stopAnimation} from "./utils/animate.js";
 import QRCode from 'qrcode';
+import useFPS from "./hooks/useFPS.js";
+import getParam from "./utils/queryString.js";
+import useClientId from "./hooks/useClientId.js";
+import useTokens from "./hooks/useTokens.js";
 
-const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-});
 
-const FPS = params.fps ?? 60;
+const FPS = getParam('fps') ?? 1;
+
 function App() {
-    const [fps, setFps] = useState(0);
+    const maxFPS = useFPS();
     const canvasRef = useRef(null);
+    const index = useRef(0);
+    
+    const clientId = useClientId();
+    const tokens = useTokens();
     
     useEffect(() => {
-        const interval = setInterval(async () => {
-            setFps(Math.round(await getFPS()));
-        }, 1000);
+        index.current = 0;
+    }, [tokens]);
+    
+    useEffect(() => {
+        if (!tokens || tokens.length < 1) return;
         
-        return () => clearInterval(interval);
-    }, []);
-    
-    useEffect(() => {
         function drawQRCode() {
-            QRCode.toCanvas(canvasRef.current, `MKD${Date.now()}`, {version: 1, width: 300}, function (error) {
-                if (error) console.error(error)
+            console.log(tokens[index.current]);
+            QRCode.toCanvas(canvasRef.current, `MKD${tokens[index.current]}`, {
+                version: 1,
+                width: 300
+            }, function (error) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    index.current = (index.current + 1) % tokens.length;
+                }
             });
         }
         
         startAnimating(FPS, drawQRCode);
         
         return () => stopAnimation();
-    }, []);
+    }, [tokens]);
     
     
     return (
-        <div className="App">
-            Screen max FPS {fps}
-            <p>This test:  Results should be approximately {FPS}</p>
-            <p id="results">Results:</p>
-            <canvas id="canvas" width="300" height="300" ref={canvasRef}></canvas>
-        </div>
+        <>
+            {tokens && (
+                <div className="App">
+                    <p>Client ID: {clientId}</p>
+                    <p id="results">Results at {FPS}fps | max {maxFPS}</p>
+                    <canvas id="canvas" width="300" height="300" ref={canvasRef}></canvas>
+                </div>
+            )}
+        </>
+    
     )
 }
 
