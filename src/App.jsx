@@ -4,7 +4,11 @@ import getFPS from "./utils/getFPS.js";
 import {startAnimating, stopAnimation} from "./utils/animate.js";
 import QRCode from 'qrcode';
 
-const FPS = 60;
+const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+});
+
+const FPS = params.fps ?? 60;
 function App() {
     const [fps, setFps] = useState(0);
     const canvasRef = useRef(null);
@@ -19,10 +23,9 @@ function App() {
     
     useEffect(() => {
         function drawQRCode() {
-            QRCode.toCanvas(canvasRef.current, `${Date.now()}`, function (error) {
+            QRCode.toCanvas(canvasRef.current, `MKD${Date.now()}`, {version: 1, width: 300}, function (error) {
                 if (error) console.error(error)
-                console.log('success!');
-            })
+            });
         }
         
         startAnimating(FPS, drawQRCode);
@@ -34,7 +37,6 @@ function App() {
     return (
         <div className="App">
             Screen max FPS {fps}
-            <h3>Throttling requestAnimationFrame to a FPS</h3>
             <p>This test:  Results should be approximately {FPS}</p>
             <p id="results">Results:</p>
             <canvas id="canvas" width="300" height="300" ref={canvasRef}></canvas>
