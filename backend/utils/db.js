@@ -12,7 +12,7 @@ export function setTokensByClient(clientId, tokens) {
 }
 
 export function getStatusByClient(clientId) {
-    return db[clientId]?.status === "passed";
+    return db[clientId]?.status ?? null;
 }
 
 export function setStatus(clientId, status) {

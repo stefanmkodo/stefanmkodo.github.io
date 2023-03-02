@@ -22,34 +22,40 @@ export function validateTokens(reqTokens) {
     
     let reqTokensProcessed = reqTokens.map(t => t.replace("MKD", ""));
     
-    return checkTokensMatchInDb(clientId, reqTokensProcessed, dbTokens);
+    checkTokensMatchInDb(clientId, reqTokensProcessed, dbTokens);
 }
 
 export function checkTokensMatchInDb(clientId, reqTokens, tokens) {
+    console.log("##################################################################");
     const length = reqTokens.length;
     let reqTokensToCheck = reqTokens;
     
     console.log("clientId", clientId);
-    console.log(reqTokens);
-    console.log("tokens", tokens);
+    console.log("reqTokens", reqTokens);
+    console.log("tokens", JSON.stringify(tokens));
     
-    let indexOfFirstToken = 0;
-    if (reqTokens[0] === clientId) {
-        indexOfFirstToken = tokens.findIndex(t => t === reqTokens[1]);
-        reqTokensToCheck = reqTokens.slice(1);
-    } else {
-        indexOfFirstToken = tokens.findIndex(t => t === reqTokens[0]);
-    }
-    console.log("indexOfFirstToken", indexOfFirstToken);
+    // let indexOfFirstToken = 0;
+    // if (reqTokens[0] === clientId) {
+    //     indexOfFirstToken = tokens.findIndex(t => t === reqTokens[1]);
+    //     reqTokensToCheck = reqTokens.slice(1);
+    // } else {
+    //     indexOfFirstToken = tokens.findIndex(t => t === reqTokens[0]);
+    // }
+    // console.log("indexOfFirstToken", indexOfFirstToken);
     
-    if (indexOfFirstToken === -1) return false;
+    // if (indexOfFirstToken === -1) {
+    //     return;
+    // }
     
-    const slicedTokens = tokens.slice(indexOfFirstToken, indexOfFirstToken + length);
-    const result = reqTokensToCheck.every((t, index) => slicedTokens[index] === t);
+    // const slicedTokens = tokens.slice(indexOfFirstToken, indexOfFirstToken + length);
+    const matched = reqTokensToCheck.filter((t, index) => tokens.find(st => st === t));
+    console.log("matched", matched.length, "vs", length);
+    const result = (matched.length / length) >= 0.7;
     
     if(result) {
         db.setStatus(clientId, "passed");
+        console.log("result", "passed");
+        return;
     }
-    
-    return result;
+    console.log("result", "failed");
 }

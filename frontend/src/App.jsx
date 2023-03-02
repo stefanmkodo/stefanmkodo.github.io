@@ -46,6 +46,10 @@ function App() {
         return () => stopAnimation();
     }, [tokens, status]);
     
+    useEffect(() => {
+        if(!status) return;
+        stopAnimation();
+    }, [status]);
     
     return (
         <>
