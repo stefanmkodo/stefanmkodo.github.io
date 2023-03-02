@@ -8,7 +8,7 @@ export default function useTokens() {
     
     const clientId = useClientId();
     
-    const {data, error, isLoading} = useSWR(clientId ? '/tokens' : null, fetcher);
+    const {data, error, isLoading} = useSWR(clientId ? `/tokens?clientId=${clientId}` : null, fetcher);
     
     useEffect(() => {
         if (!data || !data.tokens) return;

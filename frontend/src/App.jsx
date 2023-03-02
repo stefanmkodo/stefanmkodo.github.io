@@ -11,10 +11,10 @@ import useTokens from "./hooks/useTokens.js";
 const FPS = getParam('fps') ?? 1;
 
 function App() {
-    const maxFPS = useFPS();
     const canvasRef = useRef(null);
     const index = useRef(0);
     
+    const maxFPS = useFPS();
     const clientId = useClientId();
     const tokens = useTokens();
     
