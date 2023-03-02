@@ -6,7 +6,7 @@ export function getTokens(clientId) {
     let tokens = db.getTokensByClient(clientId);
     
     if(!tokens) {
-        tokens = generateTokens();
+        tokens = generateTokens(clientId);
         db.setTokensByClient(clientId, tokens);
     }
     

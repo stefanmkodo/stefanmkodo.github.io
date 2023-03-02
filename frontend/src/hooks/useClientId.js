@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 export default function useClientId () {
     const [clientId, setClientId] = useState(localStorage.getItem("clientId"));
     
-    const {data, error, isLoading} = useSWR(!clientId ? '/auth' : null, fetcher);
+    const {data} = useSWR(!clientId ? '/auth' : null, fetcher);
     
     useEffect(() => {
       if(!clientId && data?.clientId) {

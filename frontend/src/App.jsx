@@ -6,9 +6,10 @@ import useFPS from "./hooks/useFPS.js";
 import getParam from "./utils/queryString.js";
 import useClientId from "./hooks/useClientId.js";
 import useTokens from "./hooks/useTokens.js";
+import useCheckStatus from "./hooks/useCheckStatus.js";
 
 
-const FPS = getParam('fps') ?? 1;
+const FPS = getParam('fps') ?? 60;
 
 function App() {
     const canvasRef = useRef(null);
@@ -17,17 +18,18 @@ function App() {
     const maxFPS = useFPS();
     const clientId = useClientId();
     const tokens = useTokens();
+    const status = useCheckStatus();
     
     useEffect(() => {
         index.current = 0;
     }, [tokens]);
     
     useEffect(() => {
-        if (!tokens || tokens.length < 1) return;
+        if (!tokens || tokens.length < 1 || status) return;
         
         function drawQRCode() {
-            console.log(tokens[index.current]);
-            QRCode.toCanvas(canvasRef.current, `MKD${tokens[index.current]}`, {
+            let value = `MKD${tokens[index.current]}`;
+            QRCode.toCanvas(canvasRef.current, value, {
                 version: 1,
                 width: 300
             }, function (error) {
@@ -42,7 +44,7 @@ function App() {
         startAnimating(FPS, drawQRCode);
         
         return () => stopAnimation();
-    }, [tokens]);
+    }, [tokens, status]);
     
     
     return (
@@ -52,6 +54,7 @@ function App() {
                     <p>Client ID: {clientId}</p>
                     <p id="results">Results at {FPS}fps | max {maxFPS}</p>
                     <canvas id="canvas" width="300" height="300" ref={canvasRef}></canvas>
+                    <p>Status: {status ? "passed" : "pending"}</p>
                 </div>
             )}
         </>
