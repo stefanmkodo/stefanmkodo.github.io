@@ -7,11 +7,13 @@ import getParam from "./utils/queryString.js";
 import useClientId from "./hooks/useClientId.js";
 import useTokens from "./hooks/useTokens.js";
 import useCheckStatus from "./hooks/useCheckStatus.js";
-
+import {Footer, Loader} from "./Footer.jsx";
+import {Header} from "./Header.jsx";
 
 const FPS = getParam('fps') ?? 60;
 
 function App() {
+    const [isLoading, setIsLoading] = useState(true);
     const canvasRef = useRef(null);
     const index = useRef(0);
     
@@ -19,6 +21,15 @@ function App() {
     const clientId = useClientId();
     const tokens = useTokens();
     const status = useCheckStatus();
+    
+    useEffect(() => {
+        if(!tokens || tokens.length < 1) return;
+        if(!clientId) return;
+        
+        new Promise(resolve => {
+            setTimeout(resolve, 2500);
+        }).then(() => setIsLoading(false));
+    }, [tokens]);
     
     useEffect(() => {
         index.current = 0;
@@ -48,16 +59,20 @@ function App() {
     
     return (
         <>
-            {tokens && (
-                <div className="App">
-                    <p>Client ID: {clientId}</p>
-                    <p id="results">Results at {FPS}fps | max {maxFPS}</p>
-                    <canvas id="canvas" width="300" height="300" ref={canvasRef}></canvas>
-                    <p>Status: {status ? "passed" : "pending"}</p>
-                </div>
-            )}
+            <Header/>
+            <div className="App">
+                {isLoading && (<Loader />)}
+                {!isLoading && tokens && (
+                    <>
+                        <p>Client ID: {clientId}</p>
+                        <p id="results">Results at {FPS}fps | max {maxFPS}</p>
+                        <canvas id="canvas" width="300" height="300" ref={canvasRef}></canvas>
+                        <p>Status: {status === "passed" ? "passed" : "pending"}</p>
+                    </>
+                )}
+            </div>
+            <Footer/>
         </>
-    
     )
 }
 

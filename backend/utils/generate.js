@@ -8,5 +8,5 @@ export function generateTokens(clientId) {
 }
 
 export function generateClientId() {
-    return cryto.randomBytes(6).toString('hex');
+    return cryto.randomBytes(5).toString('hex');
 }

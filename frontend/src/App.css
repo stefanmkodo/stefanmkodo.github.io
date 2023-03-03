@@ -1,12 +1,68 @@
+html, body {
+    background: #242836;
+    color: #fff;
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
 }
 
 #canvas {
-  border: 1px solid #000;
-  margin: 0 auto;
-  display: block;
+    border: 1px solid #000;
+    margin: 0 auto;
+    display: block;
 }
+
+.App {
+    min-height: 422px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.navbar-brand {
+    background: url("https://mkodo.com/c/campaign/1584/content/mkodowhite.svg") 0 0/120px no-repeat;
+    height: 40px;
+    width: 120px;
+    margin: 0 auto;
+}
+
+.lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-hourglass:after {
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 32px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-hourglass 1.2s infinite;
+}
+
+@keyframes lds-hourglass {
+    0% {
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+        transform: rotate(900deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+        transform: rotate(1800deg);
+    }
+}
+
