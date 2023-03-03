@@ -1,9 +1,8 @@
-export function Footer() {
+export function Footer({status}) {
     return (
         <footer className={"footer"}>
-            <Circle/>
+            {status !== "passed" && <Circle/>}
         </footer>)
-    
 }
 
 

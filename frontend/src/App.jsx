@@ -20,7 +20,7 @@ function App() {
     const maxFPS = useFPS();
     const clientId = useClientId();
     const tokens = useTokens();
-    const status = "passed";//useCheckStatus();
+    const status = useCheckStatus();
     
     useEffect(() => {
         if(!tokens || tokens.length < 1) return;
@@ -69,12 +69,15 @@ function App() {
                         {status !== "passed" && (<canvas id="canvas" width="300" height="300" ref={canvasRef}></canvas>)}
                         {status !== "passed" && <p>Status: pending</p>}
                         {status === "passed" && (
-                            <img src={"/locked.gif"} alt={"passed"} className={"animate-in"}/>
+                            <>
+                                <img src={"/locked.gif"} alt={"passed"} className={"animate-in"}/>
+                                <p>Status: passed</p>
+                            </>
                         )}
                     </>
                 )}
             </div>
-            <Footer/>
+            <Footer status={status}/>
         </>
     )
 }

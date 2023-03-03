@@ -67,7 +67,7 @@ html, body {
 }
 
 .animate-in {
-    animation: animate-in 0.5s ease-in-out;
+    animation: animate-in 1s ease-in-out;
 }
 
 @keyframes animate-in {
@@ -78,7 +78,7 @@ html, body {
     }
     100% {
         opacity: 1;
-        transform: rotate(360deg);
+        transform: rotate(720deg);
         scale: 1;
     }
 }
