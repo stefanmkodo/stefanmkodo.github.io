@@ -1,6 +1,5 @@
 import express from "express";
-import {generateClientId, generateTokens} from "./utils/generate.js";
-import {getTokensByClient, setTokensByClient} from "./utils/db.js";
+import {generateClientId} from "./utils/generate.js";
 import * as Tokens from "./domain/tokens.js";
 import * as Status  from "./domain/status.js";
 
