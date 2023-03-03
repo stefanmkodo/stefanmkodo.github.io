@@ -1,4 +1,7 @@
 import express from "express";
+import http from "http";
+import https from "https";
+import fs from "fs";
 import {generateClientId} from "./utils/generate.js";
 import * as Tokens from "./domain/tokens.js";
 import * as Status  from "./domain/status.js";
@@ -6,7 +9,8 @@ import * as Status  from "./domain/status.js";
 const app = express()
 app.use(express.json()) // for parsing application/json
 
-const port = 3000
+const PORT = 3000
+const PORT_HTTPS = 8443
 
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -57,6 +61,14 @@ app.post("/api/validate-tokens", (req, res) => {
     res.status(200).json({ok: true});
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+const privateKey  = fs.readFileSync('../localhost.key', 'utf8');
+const certificate = fs.readFileSync('../localhost.crt', 'utf8');
+
+const options = {key: privateKey, cert: certificate};
+
+http.createServer(app).listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`)
+});
+https.createServer(options, app).listen(PORT_HTTPS, () => {
+    console.log(`Example app listening at https://localhost:${PORT_HTTPS}`)
 });
