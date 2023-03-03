@@ -7,7 +7,7 @@ export default function useCheckStatus() {
     const [status, setStatus] = useState(null);
     const clientId = useClientId();
     
-    const {data} = useSWR(clientId && status !== true ? `/check-status?clientId=${clientId}` : null, fetcher, {refreshInterval: 1000});
+    const {data} = useSWR(clientId && status !== "passed" ? `/check-status?clientId=${clientId}` : null, fetcher, {refreshInterval: 1000});
     
     useEffect(() => {
         if (typeof data?.status !== "undefined") {
