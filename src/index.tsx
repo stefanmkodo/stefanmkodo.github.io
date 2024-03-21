@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './pages/Home';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import Main from "./Main";
 
 
 const root = ReactDOM.createRoot(
@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
       <BrowserRouter>
-          <App/>
+          <Main />
       </BrowserRouter>
   </React.StrictMode>
 );

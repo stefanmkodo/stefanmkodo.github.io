@@ -5,21 +5,13 @@ import { Link } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="bg-white flex flex-col h-screen justify-center text-lg">
         <Link to="/results">
-          <button>Results</button>
+          <button className={"text-black hover:text-imperial"}>Results</button>
         </Link>
         <Link to="/scan">
-          <button>Scan</button>
+          <button className={"color-black hover:text-imperial"}>Scan</button>
         </Link>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
