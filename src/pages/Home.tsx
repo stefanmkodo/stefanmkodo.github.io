@@ -1,4 +1,4 @@
-import React from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
 import "./App.css";
 import { Link } from "react-router-dom";
 
@@ -12,9 +12,6 @@ function App() {
         <Link to="/scan">
           <button>Scan</button>
         </Link>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
         <a
           className="App-link"
           href="https://reactjs.org"
