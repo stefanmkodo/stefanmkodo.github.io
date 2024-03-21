@@ -1,6 +1,7 @@
 import React from "react";
 import Lottie, {Options} from 'react-lottie';
 import * as animationData from "../../JSON/mobile-only.json"
+import {Modal} from "../../components/modal/Modal";
 
 export const UseMobile: React.FC = () => {
 
@@ -27,6 +28,5 @@ export const UseMobile: React.FC = () => {
                 <p>If you're currently using a desktop or unsupported device, simply grab your smartphone or tablet to proceed. Once you've switched to a mobile device, you'll be able to access all the features seamlessly.</p>
             </div>
         </div>
-
     )
 }
